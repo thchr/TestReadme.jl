@@ -1,6 +1,7 @@
-using ReadmeTest
-using Test
+using TestReadme
 
-@testset "ReadmeTest.jl" begin
-    # Write your tests here.
-end
+path = joinpath((@__DIR__), "..", "README.md")
+#snippets = TestReadme.parse_readme(path)
+#inouts = TestReadme.extract_input_output.(snippets)
+
+@test_readme path
