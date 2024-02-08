@@ -3,12 +3,12 @@
 [![Build Status](https://github.com/thchr/TestReadme.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/thchr/TestReadme.jl/actions/workflows/CI.yml?query=branch%3Amain)
 
 This package provides a single macro, `@test_readme path`, which extracts all code of the following form
-> ```
-> ~~~jl
+> ~~~md
+> ```jl
 > julia> input
 > output
-> ~~~
 > ```
+> ~~~
 and compares the `repr(MIME(text/plain), input)` representation against `output`. If no `output` is included, the test only ensures that `input` evaluates without error.
 
 # Example structure of readme 
