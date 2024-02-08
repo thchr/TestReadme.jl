@@ -13,6 +13,27 @@ struct InputOutput
     output :: String
     # TODO: store line numbers of readme file?
 end
+function Base.show(io::IO, ::MIME"text/plain", inout::InputOutput)
+    Base.summary(io, inout)
+    println(io, ":")
+    printstyled(io, "   julia> "; color=:green, bold=true)
+
+    for (i, l) in enumerate(eachsplit(string(inout.input), '\n'))
+        i≠1 && print(io, "          ")
+        println(io, l)
+    end
+
+    if isempty(inout.output)
+        printstyled(io, "   [no output]"; color=:light_black)
+    else
+        lines_output = count('\n', inout.output) + 1
+        println(io)
+        for (i, l) in enumerate(eachsplit(inout.output, '\n'))
+            print(io, "   ", l)
+            i ≠ lines_output && println(io)
+        end
+    end
+end
 
 # ---------------------------------------------------------------------------------------- #
 # Parsing of README files: extracting input/output snippets for eventual testing
@@ -35,7 +56,7 @@ function read_next_snippet(readme, idx)
     # (namely, rx =r"```jl\n((?:.*\n)*?)``", capture anything between ```jl and ```, incl.
     # newlines) - but it is actually slower, so easier just to do it ourselves here
 
-    idxs′ = findnext("```jl\n", readme, idx)
+    idxs′ = findnext(r"```(?:jl|julia)\r?\n", readme, idx)
     isnothing(idxs′) && return nothing
     idx₁ = nextind(readme, last(idxs′))
 
@@ -50,10 +71,10 @@ end
 function extract_input_output(snippet::AbstractString)
     inouts = InputOutput[]
     idx′ = firstindex(snippet)
-    break_now = false
-    while !break_now
+    break_next = false
+    while !break_next
         idxs = findnext("julia> ", snippet, idx′)
-        isnothing(idxs) && return ins
+        isnothing(idxs) && break
 
         in, idx′ = Meta.parse(snippet, nextind(snippet, last(idxs)); greedy=true)
 
@@ -65,10 +86,12 @@ function extract_input_output(snippet::AbstractString)
             idxs′′ = findnext("julia> ", snippet, idx′)
             if isnothing(idxs′′)
                 out = snippet[idx′:end]
-                break_now = true
+                break_next = true
             else
                 idx′′ = prevind(snippet, first(idxs′′), 1)
-                out = chomp(snippet[idx′:idx′′])
+                out = snippet[idx′:idx′′]
+                out = replace(out, r"\s*#.*"=>"") # remove comments (TODO: deal w/ `#= ... =#`?)
+                out = rstrip(out, ['\r','\n'])
                 idx′ = idx′′
             end
         end
