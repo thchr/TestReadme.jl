@@ -42,6 +42,4 @@ jobs:
       - uses: codecov/codecov-action@v4
         with:
           file: lcov.info
-        env:
           token: ${{ secrets.CODECOV_TOKEN }}
-          slug: thchr/TestReadme.jl
