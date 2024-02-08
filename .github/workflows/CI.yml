@@ -44,3 +44,4 @@ jobs:
           file: lcov.info
         env:
           token: ${{ secrets.CODECOV_TOKEN }}
+          slug: thchr/TestReadme.jl
