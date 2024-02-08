@@ -9,14 +9,14 @@ julia> input
 output
 ```
 ~~~
-from a README file at `path`, comparing for each such input-output pair `repr(MIME(text/plain), input)` against `output`.
+from a file at `path`, comparing `repr(MIME(text/plain), input)` against `output` for each such input-output pair.
 
 The purpose of TestReadme.jl is two-fold:
 1. Automatically turn README examples into unit tests.
 2. Ensure that README examples stay synced with package functionality.
 
 Additional `@test_readme` details:
-- If omitted, `path` defaults to `(@__DIR__)/../README.test` (i.e., default Julia project structure).
+- If omitted, `path` defaults to `(@__DIR__)/../README.md` (i.e., default Julia project structure).
 - If no `output` is featured in the code snippet, it is simply tested that `input` evaluates without error.
 - If evaluation of the README code snippets requires specific packages, load them *before* calling `@test_readme`.
 - Results are aggregated in a single `@testset`, named `"README tests"`.
