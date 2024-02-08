@@ -4,7 +4,7 @@ module TestReadme
 
 using Test
 
-export @test_readme
+export @test_readme, InputOutput, parse_readme
 
 # ---------------------------------------------------------------------------------------- #
 
@@ -13,6 +13,7 @@ struct InputOutput
     output :: String
     # TODO: store line numbers of readme file?
 end
+
 function Base.show(io::IO, ::MIME"text/plain", inout::InputOutput)
     Base.summary(io, inout)
     println(io, ":")
@@ -34,10 +35,40 @@ function Base.show(io::IO, ::MIME"text/plain", inout::InputOutput)
     end
 end
 
+function Base.show(io::IO, inout::InputOutput)
+    print(io, ":(")
+    str_input = string(inout.input)
+    lines_input = count('\n', str_input) + 1
+    for (i, l) in enumerate(eachsplit(str_input, '\n'))
+        print(io, strip(l))
+        i ≠ lines_input && print(io, "\\n ")
+    end
+    print(io, ") ⇒ ")
+    if isempty(inout.output)
+        print(io, "\"\"")
+    else
+        lines_output = count('\n', inout.output) + 1
+        for (i, l) in enumerate(eachsplit(inout.output, '\n'))
+            print(io, strip(l))
+            i ≠ lines_output && print(io, "\\n ")
+        end
+    end
+end
+
 # ---------------------------------------------------------------------------------------- #
 # Parsing of README files: extracting input/output snippets for eventual testing
 
-function parse_readme(path::AbstractString)
+@eval TestReadme function parse_readme(path::AbstractString)
+    snippets = parse_readme_snippets(path)
+    inouts = InputOutput[]
+    for snippet in snippets
+        inout = extract_input_output(snippet)
+        append!(inouts, inout)
+    end
+    return inouts
+end
+
+function parse_readme_snippets(path::AbstractString)
     readme = read(path, String)
     idx = firstindex(readme)
     snippets = Vector{String}()
@@ -76,6 +107,7 @@ function extract_input_output(snippet::AbstractString)
         isnothing(idxs) && break
 
         in, idx′ = Meta.parse(snippet, nextind(snippet, last(idxs)); greedy=true)
+        Base.remove_linenums!(in) # remove LineNumberNodes
 
         # look for possible output string
         if startswith((@view snippet[idx′:end]), "julia> ")
@@ -119,7 +151,7 @@ macro test_readme(path)
     inout = gensym()
     quote
         @testset "README tests" begin
-            $snippets = parse_readme($(esc(path)))
+            $snippets = parse_readme_snippets($(esc(path)))
             for $snippet in $snippets
                 $inouts = extract_input_output($snippet)
                 for $inout in $inouts

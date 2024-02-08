@@ -4,7 +4,6 @@ using TestReadme
 
 @test_readme
 
-# To inspect the internal structures, run the following:
+# To inspect the parsed input-output pairs, use `parse_readme(path)`:
 #   path = joinpath((@__DIR__), "..", "README.md")
-#   snippets = TestReadme.parse_readme(path)
-#   inouts = TestReadme.extract_input_output.(snippets)
+#   inouts = parse_readme(path)
