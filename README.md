@@ -15,7 +15,7 @@ Additional details includes:
 - If omitted, `path` defaults to `(@__DIR__)/../README.test`, assuming the default Julia project structure.
 - If no `output` is featured in the code snippet, it is simply tested that `input` evaluates without error.
 - The overall results are aggregated in a single `@testset`, named `"README tests"`.
-- If the evaluation of the README code snippets require specific packages (as is typical), they must be manually loaded before calling `@test_readme`.
+- If the evaluation of the README code snippets require specific packages, they must be manually loaded before calling `@test_readme`.
 
 # Example structure of README file tested by `@test_readme` 
 
