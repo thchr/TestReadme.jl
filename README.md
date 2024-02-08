@@ -1,6 +1,6 @@
 # TestReadme.jl
 
-[![Build Status](https://github.com/thchr/TestReadme.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/thchr/TestReadme.jl/actions/workflows/CI.yml?query=branch%3Amain)
+[![Build status][ci-status-img]][ci-status-url] [![Coverage][coverage-img]][coverage-url]
 
 This package provides a single macro, `@test_readme path`, which extracts all code snippets of the following form
 ~~~md
@@ -74,3 +74,8 @@ Which here prints:
  :(path = joinpath(pkgdir(TestReadme), "README.md")) ⇒ ""
  :(input_outputs = parse_readme(path)) ⇒ ""
 ```
+
+[ci-status-img]:   https://github.com/thchr/TestReadme.jl/actions/workflows/CI.yml/badge.svg?branch=main
+[ci-status-url]:   https://github.com/thchr/TestReadme.jl/actions/workflows/CI.yml?query=branch%3Amain
+[coverage-img]:    https://codecov.io/gh/thchr/TestReadme.jl/branch/main/graph/badge.svg
+[coverage-url]:    https://codecov.io/gh/thchr/TestReadme.jl
