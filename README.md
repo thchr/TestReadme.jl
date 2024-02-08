@@ -60,7 +60,7 @@ julia> m = TestReadme # choose your module
 julia> path = joinpath(pkgdir(TestReadme), "README.md")
 julia> input_outputs = parse_readme(path)
 ```
-Which here prints:
+With the last line here printing (not included in output above in order to avoid recursive madness):
 ```jl
 10-element Vector{InputOutput}:
  :(cos(π)) ⇒ -1.0
