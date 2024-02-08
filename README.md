@@ -1,4 +1,4 @@
-# TestReadme
+# TestReadme.jl
 
 [![Build Status](https://github.com/thchr/TestReadme.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/thchr/TestReadme.jl/actions/workflows/CI.yml?query=branch%3Amain)
 
@@ -17,7 +17,7 @@ Additional details includes:
 - The overall results are aggregated in a single `@testset`, named `"README tests"`.
 - If the evaluation of the README code snippets require specific packages, they must be manually loaded before calling `@test_readme`.
 
-# Example: README snippets tested by `@test_readme` 
+## Example: README snippets tested by `@test_readme` 
 
 The following code is tested by TestReadme.jl itself (see [`/test/runtests.jl`](https://github.com/thchr/TestReadme.jl/blob/main/test/runtests.jl)).
 
