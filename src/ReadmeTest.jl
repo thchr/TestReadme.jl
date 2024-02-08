@@ -82,9 +82,11 @@ end
 # Macros
 
 """
-    @test_readme path
+    @test_readme [path]
 
 Test the code contents of a README file with file location `path`.
+
+If omitted, `path` is set to `joinpath((@__DIR__), "..", "README.md")`.
 
 Test results are associated with the `@testset` `"README tests"`.
 """
@@ -103,6 +105,12 @@ macro test_readme(path)
                 end
             end
         end
+    end
+end
+
+macro test_readme() 
+    quote
+        @test_readme joinpath((@__DIR__), "..", "README.md")
     end
 end
 

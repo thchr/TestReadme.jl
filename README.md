@@ -2,14 +2,18 @@
 
 [![Build Status](https://github.com/thchr/TestReadme.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/thchr/TestReadme.jl/actions/workflows/CI.yml?query=branch%3Amain)
 
-This package provides a single macro, `@test_readme path`, which extracts all code of the following form
+This package provides a single macro, `@test_readme path`, which extracts all code snippets of the following form
 > ~~~md
 > ```jl
 > julia> input
 > output
 > ```
 > ~~~
-and compares the `repr(MIME(text/plain), input)` representation against `output`. If no `output` is included, the test only ensures that `input` evaluates without error.
+from a README.md file at `path` and compares the `repr(MIME(text/plain), input)` representation against `output` for each. 
+If no `output` is included, the test only ensures that `input` evaluates without error.
+If no `path` is provided, it is set to `../README.test`, assuming the default Julia project structure.
+
+The overall results are aggregated in a single `@testset`, named `"README tests"`.
 
 # Example structure of readme 
 
