@@ -2,23 +2,23 @@
 
 [![Build status][ci-status-img]][ci-status-url] [![Coverage][coverage-img]][coverage-url]
 
-This package provides a single macro, `@test_readme path`, which extracts all code snippets of the following form
+This package provides a macro `@test_readme path` which extracts all Julia code snippets of the following form
 ~~~md
 ```jl 
 julia> input
 output
 ```
 ~~~
-from a README file at `path`, comparing for each such snippet the `repr(MIME(text/plain), input)` representation against `output`.
+from a README file at `path`, comparing for each such input-output pair `repr(MIME(text/plain), input)` against `output`.
 
 The purpose of TestReadme.jl is two-fold:
-(1) automatically turn README examples into unit tests and
-(2) ensure that README examples stay synced with package functionality.
+1. automatically turn README examples into unit tests and
+2. ensure that README examples stay synced with package functionality.
 
-Additional details includes:
-- If omitted, `path` defaults to `(@__DIR__)/../README.test`, assuming the default Julia project structure.
+Additional `@test_readme` details:
+- If omitted, `path` defaults to `(@__DIR__)/../README.test` (i.e., default Julia project structure).
 - If no `output` is featured in the code snippet, it is simply tested that `input` evaluates without error.
-- If the evaluation of the README code snippets requires specific packages, they must be manually loaded *before* calling `@test_readme`.
+- If evaluation of the README code snippets requires specific packages, load them *before* calling `@test_readme`.
 - Results are aggregated in a single `@testset`, named `"README tests"`.
 
 ## Example: README snippets tested by `@test_readme` 
