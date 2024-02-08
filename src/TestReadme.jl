@@ -58,7 +58,7 @@ end
 # ---------------------------------------------------------------------------------------- #
 # Parsing of README files: extracting input/output snippets for eventual testing
 
-@eval TestReadme function parse_readme(path::AbstractString)
+function parse_readme(path::AbstractString)
     snippets = parse_readme_snippets(path)
     inouts = InputOutput[]
     for snippet in snippets

@@ -12,8 +12,8 @@ output
 from a README file at `path`, comparing for each such input-output pair `repr(MIME(text/plain), input)` against `output`.
 
 The purpose of TestReadme.jl is two-fold:
-1. automatically turn README examples into unit tests and
-2. ensure that README examples stay synced with package functionality.
+1. Automatically turn README examples into unit tests.
+2. Ensure that README examples stay synced with package functionality.
 
 Additional `@test_readme` details:
 - If omitted, `path` defaults to `(@__DIR__)/../README.test` (i.e., default Julia project structure).
@@ -56,11 +56,11 @@ julia> exp(z)
 ### Inspecting extracted code-snippets
 The extracted input-output pairs can be obtained and inspected via `parse_readme(path)`:
 ```jl
-julia> m = TestReadme # choose your module
-julia> path = joinpath(pkgdir(TestReadme), "README.md")
+julia> m = TestReadme # pick your module
+julia> path = joinpath(pkgdir(m), "README.md")
 julia> input_outputs = parse_readme(path)
 ```
-With the last line here printing (not included in output above in order to avoid recursive madness):
+With the last line here printing (not included as output above in order to avoid recursive madness):
 ```jl
 10-element Vector{InputOutput}:
  :(cos(π)) ⇒ -1.0
