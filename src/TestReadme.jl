@@ -27,7 +27,6 @@ function Base.show(io::IO, ::MIME"text/plain", inout::InputOutput)
         printstyled(io, "   [no output]"; color=:light_black)
     else
         lines_output = count('\n', inout.output) + 1
-        println(io)
         for (i, l) in enumerate(eachsplit(inout.output, '\n'))
             print(io, "   ", l)
             i ≠ lines_output && println(io)
@@ -90,10 +89,10 @@ function extract_input_output(snippet::AbstractString)
             else
                 idx′′ = prevind(snippet, first(idxs′′), 1)
                 out = snippet[idx′:idx′′]
-                out = replace(out, r"\s*#.*"=>"") # remove comments (TODO: deal w/ `#= ... =#`?)
-                out = rstrip(out, ['\r','\n'])
                 idx′ = idx′′
             end
+            out = replace(out, r"\s*#.*"=>"") # remove comments (TODO: deal w/ `#= ... =#`?)
+            out = rstrip(out, ['\r','\n'])
         end
         push!(inouts, InputOutput(in, out))
     end
