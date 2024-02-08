@@ -4,9 +4,10 @@
 
 This package provides a single macro, `@test_readme path`, which extracts all code of the following form
 > ```
-> \`\`\`jl
+> ````jl
 > julia> input
 > output
+> ````
 > ```
 and compares the `repr(MIME(text/plain), input)` representation against `output`. If no `output` is included, the test only ensures that `input` evaluates without error.
 
