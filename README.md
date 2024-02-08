@@ -4,7 +4,7 @@
 
 This package provides a single macro, `@test_readme path`, which extracts all code snippets of the following form
 ~~~md
-```jl
+```jl 
 julia> input
 output
 ```

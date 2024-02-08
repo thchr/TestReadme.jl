@@ -9,7 +9,7 @@ export @test_readme
 # ---------------------------------------------------------------------------------------- #
 
 struct InputOutput
-    input :: Union{Symbol, Expr}
+    input  :: Union{Symbol, Expr}
     output :: String
     # TODO: store line numbers of readme file?
 end
