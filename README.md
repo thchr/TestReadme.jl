@@ -33,6 +33,12 @@ julia> sum([1,2,3])
 6
 ```
 
+A test of string outputs:
+```jl
+julia> join(["abc", "xyz"], " and ")
+"abc and xyz"
+```
+
 It is also possible to chain commands and define variables; a variable defined in one code snippet is in scope throughout a `@test_readme` call:
 ```jl
 julia> x = 2
@@ -60,18 +66,19 @@ julia> m = TestReadme # pick your module
 julia> path = joinpath(pkgdir(m), "README.md")
 julia> input_outputs = parse_readme(path)
 ```
-With the last line here printing (not included as output above in order to avoid recursive madness):
+With the last line here printing (not included as output in the above above to avoid recursive madness):
 ```jl
-10-element Vector{InputOutput}:
+11-element Vector{InputOutput}:
  :(cos(π)) ⇒ -1.0
  :(sum([1, 2, 3])) ⇒ 6
+ :(join(["abc", "xyz"], " and ")) ⇒ "abc and xyz"
  :(x = 2) ⇒ 2
  :(x += 3) ⇒ ""
  :(x) ⇒ 5
  :(begin\n y = 2\n z = y + x\n end) ⇒ 7
  :(exp(z)) ⇒ 1096.6331584284585
  :(m = TestReadme) ⇒ ""
- :(path = joinpath(pkgdir(TestReadme), "README.md")) ⇒ ""
+ :(path = joinpath(pkgdir(m), "README.md")) ⇒ ""
  :(input_outputs = parse_readme(path)) ⇒ ""
 ```
 

@@ -15,21 +15,21 @@ struct InputOutput
 end
 
 function Base.show(io::IO, ::MIME"text/plain", inout::InputOutput)
-    Base.summary(io, inout)
-    println(io, ":")
-    printstyled(io, "   julia> "; color=:green, bold=true)
+    printstyled(io, "┌ "; color=:light_black)
+    printstyled(io, "julia> "; color=:green, bold=true)
 
     for (i, l) in enumerate(eachsplit(string(inout.input), '\n'))
-        i≠1 && print(io, "          ")
+        i≠1 && printstyled(io, "│        "; color=:light_black)
         println(io, l)
     end
 
     if isempty(inout.output)
-        printstyled(io, "   [no output]"; color=:light_black)
+        printstyled(io, "└ (no output)"; color=:light_black)
     else
         lines_output = count('\n', inout.output) + 1
         for (i, l) in enumerate(eachsplit(inout.output, '\n'))
-            print(io, "   ", l)
+            printstyled(io, i ≠ lines_output ? "│ " : "└ ", color=:light_black)
+            print(io, l)
             i ≠ lines_output && println(io)
         end
     end
@@ -49,8 +49,8 @@ function Base.show(io::IO, inout::InputOutput)
     else
         lines_output = count('\n', inout.output) + 1
         for (i, l) in enumerate(eachsplit(inout.output, '\n'))
-            print(io, strip(l))
-            i ≠ lines_output && print(io, "\\n ")
+            print(io, l)
+            i ≠ lines_output && print(io, "\\n")
         end
     end
 end
